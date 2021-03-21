@@ -1,0 +1,160 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "prURM614XgRX8nFIsJGt1PZ9d0k",
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "oTWAlT9ZvYxBUyowK9F_n8X4NLQ",
+      "id": "A88ll9-ZwjM",
+      "snippet": {
+        "publishedAt": "2021-03-19T20:10:47Z",
+        "channelId": "UCEYAU-rg_cfVr2dNmS_A1xQ",
+        "title": "Gross Gore Past Broadcast - 19/03/21",
+        "description": "Donate - https://streamlabs.com/grossgore\nNot mucking around merch - https://streamlabs.com/grossgore/merch\n\n[Twitter] - https://twitter.com/GrossieGore\n[Discord] - https://discord.gg/Gross\n[Instagram] - https://www.instagram.com/grossgore.official/\n\nAll Business Inquiries - alilarsenlol@hotmail.com",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/A88ll9-ZwjM/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/A88ll9-ZwjM/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/A88ll9-ZwjM/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/A88ll9-ZwjM/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/A88ll9-ZwjM/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Gross Gore - Ali Larsen",
+        "tags": [
+          "Ali Larsen",
+          "Gross Gore",
+          "Streamer",
+          "Stream",
+          "league of legends",
+          "twisted fate",
+          "challenger",
+          "euw"
+        ],
+        "categoryId": "20",
+        "liveBroadcastContent": "none",
+        "defaultLanguage": "en",
+        "localized": {
+          "title": "Gross Gore Past Broadcast - 19/03/21",
+          "description": "Donate - https://streamlabs.com/grossgore\nNot mucking around merch - https://streamlabs.com/grossgore/merch\n\n[Twitter] - https://twitter.com/GrossieGore\n[Discord] - https://discord.gg/Gross\n[Instagram] - https://www.instagram.com/grossgore.official/\n\nAll Business Inquiries - alilarsenlol@hotmail.com"
+        },
+        "defaultAudioLanguage": "en-GB"
+      },
+      "contentDetails": {
+        "duration": "PT5H17M22S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": true,
+        "contentRating": {},
+        "projection": "rectangular"
+      },
+      "statistics": {
+        "viewCount": "104680",
+        "likeCount": "12877",
+        "dislikeCount": "167",
+        "favoriteCount": "0",
+        "commentCount": "227"
+      },
+      "liveStreamingDetails": {
+        "actualStartTime": "2021-03-19T14:00:10Z",
+        "actualEndTime": "2021-03-19T19:17:36Z"
+      }
+    },
+    {
+      "kind": "youtube#video",
+      "etag": "muN9SsxdllwfDk_RFjVL7b41vRM",
+      "id": "0W3MhfhnYjk",
+      "snippet": {
+        "publishedAt": "2019-09-08T01:15:37Z",
+        "channelId": "UCepc0ci716vyJfuxFQu3oKA",
+        "title": "Twitch Chat Replay Tutorial | Twitch VOD/Clip Downloader | Chat Download/Render/Replay",
+        "description": "GitHub: https://github.com/lay295/TwitchDownloader\n\nThis is a tutorial on how to use my tool to render twitch chats from either a VOD or a Clip.\nThis has been made recently, and any issues can be submitted on GitHub and I will try and fix them :)",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/0W3MhfhnYjk/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/0W3MhfhnYjk/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/0W3MhfhnYjk/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/0W3MhfhnYjk/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/0W3MhfhnYjk/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Lewis P",
+        "categoryId": "20",
+        "liveBroadcastContent": "none",
+        "localized": {
+          "title": "Twitch Chat Replay Tutorial | Twitch VOD/Clip Downloader | Chat Download/Render/Replay",
+          "description": "GitHub: https://github.com/lay295/TwitchDownloader\n\nThis is a tutorial on how to use my tool to render twitch chats from either a VOD or a Clip.\nThis has been made recently, and any issues can be submitted on GitHub and I will try and fix them :)"
+        }
+      },
+      "contentDetails": {
+        "duration": "PT6M39S",
+        "dimension": "2d",
+        "definition": "hd",
+        "caption": "false",
+        "licensedContent": false,
+        "contentRating": {},
+        "projection": "rectangular"
+      },
+      "statistics": {
+        "viewCount": "26614",
+        "likeCount": "861",
+        "dislikeCount": "10",
+        "favoriteCount": "0",
+        "commentCount": "267"
+      }
+    }
+  ],
+  "pageInfo": {
+    "totalResults": 2,
+    "resultsPerPage": 2
+  }
+}
+
+
+return gapi.client.youtube.videos.list({
+    "part": [
+      "snippet,contentDetails,statistics",
+      "liveStreamingDetails"
+    ],
+    "id": [
+      "A88ll9-ZwjM",
+      "0W3MhfhnYjk"
+    ]
+  })
