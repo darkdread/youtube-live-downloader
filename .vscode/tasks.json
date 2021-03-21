@@ -3,16 +3,19 @@
 	"tasks": [
 		{
 			"type": "cppbuild",
-			"label": "C/C++: clang.exe build active file",
-			"command": "E:\\Program Files\\LLVM\\bin\\clang.exe",
+			"label": "C/C++: clang-cl.exe build active file",
+			"command": "C:\\Program Files\\LLVM\\bin\\clang-cl.exe",
 			"args": [
-				"-g",
+				"-clang:-g",
+				"-EHsc",
+				"-I",
+				"${workspaceFolder}/include/",
 				"${file}",
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],
 			"options": {
-				"cwd": "E:\\Program Files\\LLVM\\bin"
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [
 				"$gcc"
@@ -21,7 +24,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: \"E:\\Program Files\\LLVM\\bin\\clang.exe\""
+			"detail": "compiler: \"C:\\Program Files\\LLVM\\bin\\clang-cl.exe\""
 		}
 	]
 }
