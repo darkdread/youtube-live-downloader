@@ -1,0 +1,34 @@
+curl 'https://www.youtube.com/youtubei/v1/live_chat/get_live_chat_replay?key=AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8' \
+  -H 'authority: www.youtube.com' \
+  -H 'sec-ch-ua: "Google Chrome";v="89", "Chromium";v="89", ";Not A Brand";v="99"' \
+  -H 'x-origin: https://www.youtube.com' \
+  -H 'accept-language: en-US,en;q=0.9' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'authorization: SAPISIDHASH 1616353822_54188bcfbd183b042e67c251625f92e7d7675e37' \
+  -H 'content-type: application/json' \
+  -H 'accept: */*' \
+  -H 'x-youtube-client-name: 1' \
+  -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36' \
+  -H 'x-youtube-client-version: 2.20210318.08.00' \
+  -H 'x-goog-authuser: 0' \
+  -H 'x-client-data: CIW2yQEIo7bJAQjEtskBCKmdygEI+MfKAQjRz8oBCMbpygEI0JrLAQjVnMsBCOScywEIqJ3LARjjw8oB' \
+  -H 'x-goog-visitor-id: CgtkNGNrd0VHbFp1TSiNtN6CBg%3D%3D' \
+  -H 'origin: https://www.youtube.com' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'referer: https://www.youtube.com/live_chat_replay?continuation=op2w0wRpGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCQAFaBRCQhpUBcgIIBHgB' \
+  -H 'cookie: SID=7gfAmXwQoHMorxVha1J6g0gULG_z2mFWbUqhJGWffhZDM_O6KSO_9GFKWhsHzku9-LGAVg.;' \
+  --data-raw '{
+  "context": {
+    "client": {
+      "clientName": "WEB",
+      "clientVersion": "2.20210318.08.00",
+    },
+  },
+  "continuation": "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKJPRh5QJQABIBFICIAByAggEeAA%3D",
+  "currentPlayerState": {
+    "playerOffsetMs": "0"
+  }
+}' \
+  --compressed
