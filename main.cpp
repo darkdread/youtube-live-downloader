@@ -1,9 +1,20 @@
 #include <iostream>
 #include <tclap/CmdLine.h>
+#include <cpr/cpr.h>
+
 using namespace std;
 
 int main(int argc, char** argv)
 {
+    // cpr::Response r = cpr::Get(cpr::Url{"https://api.github.com/repos/whoshuu/cpr/contributors"},
+    //                   cpr::Authentication{"user", "pass"},
+    //                   cpr::Parameters{{"anon", "true"}, {"key", "value"}});
+
+    cpr::Response r = cpr::Get(cpr::Url{"https://api.github.com/repos/whoshuu/cpr/contributors"});
+
+    cout << r.status_code << endl;                  // 200
+    // r.header["content-type"];       // application/json; charset=utf-8
+    // r.text;                         // JSON text string
 
 	// Wrap everything in a try block.  Do this every time, 
 	// because exceptions will be thrown for problems.
@@ -50,7 +61,6 @@ int main(int argc, char** argv)
 	}
 	else
 		std::cout << "My name is: " << name << std::endl;
-
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions
 	{ std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl; }

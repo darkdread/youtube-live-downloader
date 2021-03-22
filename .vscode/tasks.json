@@ -10,6 +10,8 @@
 				"-EHsc",
 				"-I",
 				"${workspaceFolder}/include/",
+				"-I",
+				"C:/Users/walson.low/Desktop/vcpkg/installed/x86-windows/include/",
 				"${file}",
 				"-o",
 				"${fileDirname}\\${fileBasenameNoExtension}.exe"

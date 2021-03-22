@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/include/"
+                "${vcpkgRoot}/x64-windows/include/"
             ],
             "defines": [
                 "_DEBUG",
@@ -15,7 +15,8 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-clang-x64",
-            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang-cl.exe"
+            "compilerPath": "C:\\Program Files\\LLVM\\bin\\clang-cl.exe",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
         }
     ],
     "version": 4

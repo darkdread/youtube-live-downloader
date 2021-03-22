@@ -8,7 +8,7 @@
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/main.exe",
+            "program": "${workspaceFolder}/build/youtubelivedownloader.exe",
             "args": [
                 "-n",
                 "eeeee"
