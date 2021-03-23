@@ -1,21 +1,14 @@
 #include <iostream>
 #include <tclap/CmdLine.h>
 #include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
+#include <yld/chat.h>
 
 using namespace std;
+using json = nlohmann::json;
 
 int main(int argc, char** argv)
 {
-    // cpr::Response r = cpr::Get(cpr::Url{"https://api.github.com/repos/whoshuu/cpr/contributors"},
-    //                   cpr::Authentication{"user", "pass"},
-    //                   cpr::Parameters{{"anon", "true"}, {"key", "value"}});
-
-    cpr::Response r = cpr::Get(cpr::Url{"https://api.github.com/repos/whoshuu/cpr/contributors"});
-
-    cout << r.status_code << endl;                  // 200
-    // r.header["content-type"];       // application/json; charset=utf-8
-    // r.text;                         // JSON text string
-
 	// Wrap everything in a try block.  Do this every time, 
 	// because exceptions will be thrown for problems.
 	try {
@@ -31,11 +24,18 @@ int main(int argc, char** argv)
 	// Define a value argument and add it to the command line.
 	// A value arg defines a flag and a type of value that it expects,
 	// such as "-n Bishop".
-	TCLAP::ValueArg<std::string> nameArg("n","name","Name to print",true,"homer","string");
+	TCLAP::ValueArg<std::string> continuationArg("c","continuation","Continuation key of youtube live chat. "
+												 "README for more information.",true,"homer","string");
 
 	// Add the argument nameArg to the CmdLine object. The CmdLine object
 	// uses this Arg to parse the command line.
-	cmd.add( nameArg );
+	cmd.add( continuationArg );
+
+	TCLAP::ValueArg<std::string> timeStartArg("", "timestart","When to start fetching chat result",false,"homer","int");
+	cmd.add( timeStartArg );
+
+	TCLAP::ValueArg<std::string> timeEndArg("","timeend","When to stop fetching chat result",false,"homer","int");
+	cmd.add( timeEndArg );
 
 	// Define a switch and add it to the command line.
 	// A switch arg is a boolean argument and only defines a flag that
@@ -50,17 +50,24 @@ int main(int argc, char** argv)
 	cmd.parse( argc, argv );
 
 	// Get the value parsed by each arg. 
-	std::string name = nameArg.getValue();
+	std::string continuation = continuationArg.getValue();
 	bool reverseName = reverseSwitch.getValue();
 
-	// Do what you intend. 
+	unsigned long timeStart = timeStartArg.isSet() ? stoi(timeStartArg.getValue()) : 0;
+	unsigned long timeEnd = timeEndArg.isSet() ? stoi(timeEndArg.getValue()) : 0;
+	
+	// Do what you intend.
 	if ( reverseName )
 	{
-		std::reverse(name.begin(),name.end());
-		std::cout << "My name (spelled backwards) is: " << name << std::endl;
+		std::reverse(continuation.begin(),continuation.end());
+		std::cout << "My name (spelled backwards) is: " << continuation << std::endl;
 	}
 	else
-		std::cout << "My name is: " << name << std::endl;
+		std::cout << "Continuation: " << continuation << std::endl;
+		std::cout << "TimeStart: " << timeStart << std::endl;
+		std::cout << "TimeEnd: " << timeEnd << std::endl;
+
+		yld::Chat kekw{continuation, timeStart, timeEnd};
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions
 	{ std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl; }

@@ -10,8 +10,8 @@
             "name": "Debug",
             "program": "${workspaceFolder}/build/youtubelivedownloader.exe",
             "args": [
-                "-n",
-                "eeeee"
+                "-c",
+                "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKN7Gq58JQABIBFICIAByAggEeAA%3D"
             ],
             "cwd": "${workspaceFolder}"
         }

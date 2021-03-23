@@ -20,6 +20,25 @@ Dependencies:
 Building for debug ver:
 > cmake --build ./build --config Debug --target all -- -j 10
 
+# Youtube Page
+
+<!-- When fetching a youtube page, there is a variable named `ytInitialData`. This variable is an object which contains the `continuation` key.
+
+[Example Initial Data](ytInitialData.json) -->
+
+When fetching a youtube page, there is a script called `desktop_polymer_inlined_html_polymer_flags.js` which generates a key called `continuation`.  
+This key is used to get the first live chat api. Subsequently, the responses from the live chat api will return its own key.
+
+However, since we can't fetch the key programmatically with the cpr library, we will utilize web scraping to do our job.
+
+Run this command after the live chat is loaded.
+
+> ytInitialData.continuationContents.liveChatContinuation.continuations[1].playerSeekContinuationData.continuation
+
+Outputs a string for example:
+> "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKN7Gq58JQABIBFICIAByAggEeAA%3D"
+
+It is the input to our program.
 
 # Youtube Live Chat API Responses
 
