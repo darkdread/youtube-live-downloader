@@ -38,7 +38,10 @@ Run this command after the live chat is loaded.
 Outputs a string for example:
 > "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKN7Gq58JQABIBFICIAByAggEeAA%3D"
 
-It is the input to our program.
+It is the `continuation` input to our program.
+
+Key for getting live chat replay.
+> ytplayer.web_player_context_config.innertubeApiKey
 
 # Youtube Live Chat API Responses
 

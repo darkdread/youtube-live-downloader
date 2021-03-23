@@ -12,12 +12,12 @@ namespace yld {
 
 	class Chat {
 		private:
-			unsigned long timeEnd;
-			unsigned long timeStart;
-			string* response;
+			unsigned long m_timeEnd;
+			unsigned long m_timeStart;
+			std::string* response;
 			
 		public:
-			Chat(string &continuation, unsigned long &start, unsigned long &end);
+			Chat(std::string &continuation, std::string &innertube_key, unsigned long &start, unsigned long &end);
 	};
 
 }

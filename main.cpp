@@ -31,6 +31,10 @@ int main(int argc, char** argv)
 	// uses this Arg to parse the command line.
 	cmd.add( continuationArg );
 
+	TCLAP::ValueArg<std::string> innerKeyArg("k","innerkey","Innertube api key of youtube live chat. "
+												 "README for more information.",true,"homer","string");
+	cmd.add( innerKeyArg );
+
 	TCLAP::ValueArg<std::string> timeStartArg("", "timestart","When to start fetching chat result",false,"homer","int");
 	cmd.add( timeStartArg );
 
@@ -51,6 +55,7 @@ int main(int argc, char** argv)
 
 	// Get the value parsed by each arg. 
 	std::string continuation = continuationArg.getValue();
+	std::string innerKey = innerKeyArg.getValue();
 	bool reverseName = reverseSwitch.getValue();
 
 	unsigned long timeStart = timeStartArg.isSet() ? stoi(timeStartArg.getValue()) : 0;
@@ -67,7 +72,7 @@ int main(int argc, char** argv)
 		std::cout << "TimeStart: " << timeStart << std::endl;
 		std::cout << "TimeEnd: " << timeEnd << std::endl;
 
-		yld::Chat kekw{continuation, timeStart, timeEnd};
+		yld::Chat kekw{continuation, innerKey, timeStart, timeEnd};
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions
 	{ std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl; }
