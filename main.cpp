@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 	bool reverseName = reverseSwitch.getValue();
 
 	unsigned long timeStart = timeStartArg.isSet() ? stoi(timeStartArg.getValue()) : 0;
-	unsigned long timeEnd = timeEndArg.isSet() ? stoi(timeEndArg.getValue()) : 0;
+	unsigned long timeEnd = timeEndArg.isSet() ? stoi(timeEndArg.getValue()) : 0;	
 	
 	// Do what you intend.
 	if ( reverseName )

@@ -11,7 +11,9 @@
             "program": "${workspaceFolder}/build/youtubelivedownloader.exe",
             "args": [
                 "-c",
-                "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKN7Gq58JQABIBFICIAByAggEeAA%3D"
+                "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKN7Gq58JQABIBFICIAByAggEeAA%3D",
+                "--innerkey",
+                "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
             ],
             "cwd": "${workspaceFolder}"
         }
