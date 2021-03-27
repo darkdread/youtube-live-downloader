@@ -5,26 +5,37 @@ namespace yld {
 
     ChatResponse Chat::BuildChatResponseFromString(std::string &p_json){
         ChatResponse chatResponse;
-        json j = json::parse(p_json);
+        nlohmann::json j = nlohmann::json::parse(p_json);
 
-        std::vector<ChatReplayItem> chatReplayItems(j["continuationContents"]["liveChatContinuation"]["actions"].size());
+        std::vector<ChatReplayItem> chatReplayItems;
         for (int i = 0; i < j["continuationContents"]["liveChatContinuation"]["actions"].size(); i++){
-            json item = j["continuationContents"]["liveChatContinuation"]["actions"][i]["replayChatItemAction"]["actions"];
+            nlohmann::json item = j["continuationContents"]["liveChatContinuation"]["actions"][i]["replayChatItemAction"]["actions"][0]["addChatItemAction"]["item"];
+            ChatReplayItem::chat_replay_t responseType = ChatReplayItem::chat_replay_t::normal;
 
-            std::string author = item[0]["addChatItemAction"]["item"]["liveChatTextMessageRenderer"]["authorName"]["simpleText"];
-            std::string thumbnail = item[0]["addChatItemAction"]["item"]["liveChatTextMessageRenderer"]["authorPhoto"]["thumbnails"][0]["url"];
-            std::string ts = item[0]["addChatItemAction"]["item"]["liveChatTextMessageRenderer"]["timestampUsec"];
+            if (!item["liveChatTextMessageRenderer"].is_null()){
+                item = item["liveChatTextMessageRenderer"];
+            } else if (!item["liveChatMembershipItemRenderer"].is_null()){
+                responseType = ChatReplayItem::chat_replay_t::membership;
+                item = item["liveChatMembershipItemRenderer"];
+            } else {
+                continue;
+            }
+
+            std::string author = item["authorName"]["simpleText"];
+            std::string thumbnail = item["authorPhoto"]["thumbnails"][0]["url"];
+            std::string ts = item["timestampUsec"];
             std::vector<string> message;
 
-            for (int k = 0; k < item[0]["addChatItemAction"]["item"]["liveChatTextMessageRenderer"]["message"]["runs"].size(); k++){
-                json messageItem = item[0]["addChatItemAction"]["item"]["liveChatTextMessageRenderer"]["message"]["runs"][k];
+            for (int k = 0; k < item["message"]["runs"].size(); k++){
+                nlohmann::json messageItem = item["message"]["runs"][k];
 
                 if (messageItem["text"].is_string()){
                     message.push_back(messageItem["text"]);
                 } else if (messageItem["emoji"].is_object()){
                     message.push_back(messageItem["emoji"]["shortcuts"][0]);
+                } else {
+                    message.push_back(messageItem.dump());
                 }
-
             }
 
             unsigned long long timestamp = std::stoull(ts);
@@ -33,19 +44,21 @@ namespace yld {
                 message, author, thumbnail, timestamp
             };
 
-            chatReplayItems[i] = cItem;
+            cItem.m_responseType = responseType;
+
+            chatReplayItems.push_back(cItem);
         }
 
         chatResponse.m_lastMessageTime = chatReplayItems[chatReplayItems.size() - 1].m_messageTime;
-        chatResponse.m_continuation = j["continuationContents"]["liveChatContinuation"]["continuations"][0]["liveChatReplayContinuationData"]["continuation"];
-        chatResponse.m_rawResponse = &p_json;
-        chatResponse.m_chatReplayItems = &chatReplayItems;
+        chatResponse.m_continuation = j["continuationContents"]["liveChatContinuation"]["continuations"][0]["liveChatReplayContinuationData"]["continuation"].get<std::string>();
+        chatResponse.m_rawResponse = p_json;
+        chatResponse.m_chatReplayItems = chatReplayItems;
 
         return chatResponse;
     }
 
     ChatResponse Chat::SendChatRequest(std::string &continuation, std::string &innertube_key, unsigned long &start){
-        json j = {
+        nlohmann::json j = {
             {"context", {
                 {"client", {
                     {"clientName", "WEB"},
@@ -62,8 +75,8 @@ namespace yld {
                             cpr::Header{{"Content-Type", "application/json"}},
                             cpr::Body(j.dump()));
 
-        response = &r.text;
-        return BuildChatResponseFromString(*response);
+        m_rawResponse = &r.text;
+        return BuildChatResponseFromString(*m_rawResponse);
     }
 
 
@@ -72,15 +85,27 @@ namespace yld {
         m_timeStart = start;
         m_timeEnd = end;
 
-        // SendChatRequest(continuation, innertube_key, start);
-        std::ifstream t("timestamp0.json");
+        // ChatResponse r = SendChatRequest(continuation, innertube_key, start);
+        // std::ifstream t("timestamp99999.json");
+        // std::stringstream buffer;
+        // buffer << t.rdbuf();
+
+        // std::string jsonString = buffer.str();
+        // ChatResponse r = BuildChatResponseFromString(jsonString);
+
+        // m_response = r;
+
+        std::ifstream t("hello.json");
         std::stringstream buffer;
         buffer << t.rdbuf();
 
-        std::string jsonString = buffer.str();
-        ChatResponse r = BuildChatResponseFromString(jsonString);
-        
-        cout << *r.m_rawResponse << endl;
+        nlohmann::json j = nlohmann::json::parse(buffer.str());
+        ChatResponse r;
+        ChatResponse::from_json(j, r);
+
+        std::cout << r.m_continuation << std::endl;
+
+        // cout << *r.m_rawResponse << endl;
     }
 
 }

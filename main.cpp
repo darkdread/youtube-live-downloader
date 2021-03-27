@@ -5,7 +5,6 @@
 #include <yld/chat.h>
 
 using namespace std;
-using json = nlohmann::json;
 
 int main(int argc, char** argv)
 {
@@ -41,6 +40,9 @@ int main(int argc, char** argv)
 	TCLAP::ValueArg<std::string> timeEndArg("","timeend","When to stop fetching chat result",false,"homer","int");
 	cmd.add( timeEndArg );
 
+	TCLAP::ValueArg<std::string> outputFileArg("o","output","Output file path",false,"","string");
+	cmd.add( outputFileArg );
+
 	// Define a switch and add it to the command line.
 	// A switch arg is a boolean argument and only defines a flag that
 	// indicates true or false.  In this example the SwitchArg adds itself
@@ -57,9 +59,10 @@ int main(int argc, char** argv)
 	std::string continuation = continuationArg.getValue();
 	std::string innerKey = innerKeyArg.getValue();
 	bool reverseName = reverseSwitch.getValue();
+	std::string outputFile = outputFileArg.getValue();
 
 	unsigned long timeStart = timeStartArg.isSet() ? stoi(timeStartArg.getValue()) : 0;
-	unsigned long timeEnd = timeEndArg.isSet() ? stoi(timeEndArg.getValue()) : 0;	
+	unsigned long timeEnd = timeEndArg.isSet() ? stoi(timeEndArg.getValue()) : 0;
 	
 	// Do what you intend.
 	if ( reverseName )
@@ -71,8 +74,14 @@ int main(int argc, char** argv)
 		std::cout << "Continuation: " << continuation << std::endl;
 		std::cout << "TimeStart: " << timeStart << std::endl;
 		std::cout << "TimeEnd: " << timeEnd << std::endl;
+		std::cout << "OutputFile: " << outputFile << std::endl;
 
 		yld::Chat kekw{continuation, innerKey, timeStart, timeEnd};
+
+		if (outputFile != ""){
+			// kekw.OutputToFile(outputFile);
+		}
+		std::cout << &kekw.m_response << std::endl;
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions
 	{ std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl; }

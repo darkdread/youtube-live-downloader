@@ -3,8 +3,13 @@
 ## Prerequisites
 
 * [clang](https://clang.llvm.org/)
-* [Code-LLVM](https://github.com/vadimcn/vscode-lldb)
+* [CMake](https://cmake.org/download/)
+* [vcpkg](https://github.com/microsoft/vcpkg)
 
+## Additional Tools for VSCode
+
+* [CodeLLDB](https://github.com/vadimcn/vscode-lldb)
+* [cmake-tools](https://github.com/microsoft/vscode-cmake-tools)
 
 ## Vckpg
 
@@ -12,13 +17,17 @@ Project based on x64-windows triplet. Set this environment to build on x64:
 > VCPKG_DEFAULT_TRIPLET=x64-windows
 
 Dependencies:
-* tclap
-* cpr
+* [TCLAP](https://github.com/mirror/tclap)
+* [cpr](https://github.com/whoshuu/cpr)
+* [nlohmann-json](https://github.com/nlohmann/json)
 
 ## CMake
 
 Building for debug ver:
 > cmake --build ./build --config Debug --target all -- -j 10
+
+If using cmake-tools, modify `toolchainFile`.
+> "toolchainFile": "${vckpgRoot}\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"1
 
 # Youtube Page
 
@@ -49,21 +58,31 @@ Key for getting live chat replay.
 |--------------------------------|-------------------------|
 | liveChatTextMessageRenderer    | Normal message by user. |
 | liveChatPaidMessageRenderer    | Paid message by user.   |
-| liveChatMembershipItemRenderer | New subscription.       |
-|                                |                         |
+| liveChatMembershipItemRenderer | New membership.         |
+| timestampUsec                  | Timestamp * 100000      |
+
+
+```
+timestampUsec,    videoOffsetTimeMsec
+1616162483909012, 78779
+1616162484370336, 79303
+1616162484962361, 79865
+```
 
 
 ## Examples of responses
 
 * [Normal Message](example-normal-msg.md)
 * [Paid Message](example-paid-msg.md)
+* [Membership Message](example-membership-msg.md)
 
 ### Using Youtube Live Chat API
 
 | Key            | Remarks                                   |
 |----------------|-------------------------------------------|
 | playerOffsetMs | The time to start fetching chat messages. |
-
+| innertubeKey   | Key to access Youtube's api.              |
+| continuation   | Key to access Youtube's api.              |
 
 playerOffsetMs: 0
 ```

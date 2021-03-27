@@ -5,15 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "lldb",
+            "type": "cppvsdbg",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/build/youtubelivedownloader.exe",
+            "program": "${workspaceFolder}/build/ytchatdl.exe",
             "args": [
                 "-c",
                 "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKN7Gq58JQABIBFICIAByAggEeAA%3D",
                 "--innerkey",
-                "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8"
+                "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
+                "--timestart",
+                "99999",
+                "-o",
+                "hello.json"
             ],
             "cwd": "${workspaceFolder}"
         }
