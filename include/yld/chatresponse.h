@@ -40,12 +40,10 @@ namespace yld {
 			}
 
 			static void from_json(nlohmann::json & j, ChatResponse & resp){
-				nlohmann::json chatReplayItemsJson = j;
-
 				j.at("continuation").get_to(resp.m_continuation);
 				j.at("lastMessageTime").get_to(resp.m_lastMessageTime);
 
-				ChatReplayItem::from_json(chatReplayItemsJson, resp.m_chatReplayItems);
+				ChatReplayItem::from_json(j, resp.m_chatReplayItems);
 			}
 	};
 

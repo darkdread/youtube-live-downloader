@@ -27,7 +27,7 @@ Building for debug ver:
 > cmake --build ./build --config Debug --target all -- -j 10
 
 If using cmake-tools, modify `toolchainFile`.
-> "toolchainFile": "${vckpgRoot}\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"1
+> "toolchainFile": "${vckpgRoot}\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
 
 # Youtube Page
 

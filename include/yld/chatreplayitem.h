@@ -44,13 +44,10 @@ namespace yld {
             }
 
             static void to_json(nlohmann::json & j, const std::vector<ChatReplayItem> & chatReplayItems){
-
-                std::string s = "";
                 nlohmann::json replayItems = nlohmann::json::array();
-                std::cout << chatReplayItems.size() << std::endl;
                 for (int i = 0; i < chatReplayItems.size(); i++){
                     nlohmann::json itemJson;
-                    std::cout << chatReplayItems[i].BuildMessage() << std::endl;
+
                     to_json(itemJson, chatReplayItems[i]);
                     replayItems.push_back(itemJson);
                 }
