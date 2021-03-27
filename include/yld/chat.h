@@ -12,6 +12,7 @@ namespace yld {
 
 	class Chat {
 		private:
+			const unsigned long OFFSET_START = 0;
 			unsigned long m_timeEnd;
 			unsigned long m_timeStart;
 			std::string * m_rawResponse;
@@ -20,14 +21,14 @@ namespace yld {
 			ChatResponse SendChatRequest(std::string &continuation, std::string &innertube_key, unsigned long &start);
 
 		public:
-			ChatResponse m_response;
+			std::vector<ChatResponse> m_responses;
 			Chat(std::string &continuation, std::string &innertube_key, unsigned long &start, unsigned long &end);
-			void OutputToFile(std::string &filepath){
+			void OutputToFile(std::string &filePath){
 				ofstream opFile;
-				opFile.open(filepath);
+				opFile.open(filePath);
 
 				nlohmann::json j;
-				ChatResponse::to_json(j, m_response);
+				ChatResponse::to_json(j, m_responses);
 
 				opFile << j;
 				opFile.close();

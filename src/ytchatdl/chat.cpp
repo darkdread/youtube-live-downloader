@@ -23,7 +23,7 @@ namespace yld {
 
             std::string author = item["authorName"]["simpleText"];
             std::string thumbnail = item["authorPhoto"]["thumbnails"][0]["url"];
-            std::string ts = item["timestampUsec"];
+            std::string ts = j["continuationContents"]["liveChatContinuation"]["actions"][i]["replayChatItemAction"]["videoOffsetTimeMsec"];
             std::vector<string> message;
 
             for (int k = 0; k < item["message"]["runs"].size(); k++){
@@ -38,7 +38,7 @@ namespace yld {
                 }
             }
 
-            unsigned long long timestamp = std::stoull(ts);
+            unsigned long timestamp = std::stoul(ts);
 
             ChatReplayItem cItem {
                 message, author, thumbnail, timestamp
@@ -57,7 +57,7 @@ namespace yld {
         return chatResponse;
     }
 
-    ChatResponse Chat::SendChatRequest(std::string &continuation, std::string &innertube_key, unsigned long &start){
+    ChatResponse Chat::SendChatRequest(std::string & continuation, std::string & innertube_key, unsigned long & start){
         nlohmann::json j = {
             {"context", {
                 {"client", {
@@ -80,32 +80,43 @@ namespace yld {
     }
 
 
-    Chat::Chat(std::string &continuation, std::string &innertube_key, unsigned long &start, unsigned long &end)
+    Chat::Chat(std::string & continuation, std::string & innertube_key, unsigned long & start, unsigned long & end)
     {
         m_timeStart = start;
         m_timeEnd = end;
 
-        // ChatResponse r = SendChatRequest(continuation, innertube_key, start);
-        // std::ifstream t("timestamp99999.json");
+        // // Send requests
+        // unsigned long startOffset = start;
+        // std::vector<ChatResponse> responses;
+        // ChatResponse r = SendChatRequest(continuation, innertube_key, startOffset);
+        // do {
+        //     // End of video.
+        //     if (r.m_lastMessageTime == startOffset){
+        //         break;
+        //     }
+        //     startOffset = r.m_lastMessageTime + OFFSET_START;
+        //     responses.push_back(r);
+        //     r = SendChatRequest(continuation, innertube_key, startOffset);
+        // } while(r.m_lastMessageTime < end);
+
+        // m_responses = responses;
+
+        // // Read youtube response
+        // std::ifstream t("documentation/timestamp99999.json");
         // std::stringstream buffer;
         // buffer << t.rdbuf();
 
         // std::string jsonString = buffer.str();
         // ChatResponse r = BuildChatResponseFromString(jsonString);
 
-        // m_response = r;
-
-        std::ifstream t("hello.json");
+        // Read ChatResponses
+        std::ifstream t("build/hello.json");
         std::stringstream buffer;
         buffer << t.rdbuf();
 
         nlohmann::json j = nlohmann::json::parse(buffer.str());
-        ChatResponse r;
-        ChatResponse::from_json(j, r);
-
-        std::cout << r.m_continuation << std::endl;
-
-        // cout << *r.m_rawResponse << endl;
+        std::vector<ChatResponse> responses;
+        ChatResponse::from_json(j, responses);
     }
 
 }

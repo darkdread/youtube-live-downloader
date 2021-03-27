@@ -42,14 +42,16 @@ However, since we can't fetch the key programmatically with the cpr library, we 
 
 Run this command after the live chat is loaded.
 
-> ytInitialData.continuationContents.liveChatContinuation.continuations[1].playerSeekContinuationData.continuation
+> document.querySelector("ytd-live-chat-frame iframe").contentWindow.ytInitialData.continuationContents.liveChatContinuation.continuations[1].playerSeekContinuationData.continuation
 
 Outputs a string for example:
 > "op2w0wRuGlhDaWtxSndvWVZVTkZXVUZWTFhKblgyTm1Wbkl5WkU1dFUxOUJNWGhSRWd0Qk9EaHNiRGt0V25kcVRSb1Q2cWpkdVFFTkNndEJPRGhzYkRrdFduZHFUU0FCKN7Gq58JQABIBFICIAByAggEeAA%3D"
 
 It is the `continuation` input to our program.
 
-Key for getting live chat replay.
+*Note*: Apparently we can use this key indefinitely to get chat messages.
+
+Key for getting live chat replay. It is not tied to the user account.
 > ytplayer.web_player_context_config.innertubeApiKey
 
 # Youtube Live Chat API Responses
@@ -72,9 +74,9 @@ timestampUsec,    videoOffsetTimeMsec
 
 ## Examples of responses
 
-* [Normal Message](example-normal-msg.md)
-* [Paid Message](example-paid-msg.md)
-* [Membership Message](example-membership-msg.md)
+* [Normal Message](documentation/example-normal-msg.md)
+* [Paid Message](documentation/example-paid-msg.md)
+* [Membership Message](documentation/example-membership-msg.md)
 
 ### Using Youtube Live Chat API
 
@@ -90,24 +92,47 @@ First: "videoOffsetTimeMsec": "0"
 Last: "videoOffsetTimeMsec": "32672"
 ```
 
+playerOffsetMs: 4999
+```
+First: "videoOffsetTimeMsec": "0"  
+Last: "videoOffsetTimeMsec": "32672"
+```
+
+playerOffsetMs: 5000
+```
+First: "videoOffsetTimeMsec": "10325"  
+Last: "videoOffsetTimeMsec": "32672"
+```
+
+playerOffsetMs: 10000
+```
+First: "videoOffsetTimeMsec": "10325"  
+Last: "videoOffsetTimeMsec": "32672"
+```
+
 playerOffsetMs: 32672
 ```
 First: "videoOffsetTimeMsec": "10325"  
 Last: "videoOffsetTimeMsec": "46813"
 ```
 
-We can conclude that for playerOffsetMs = x = 32672,  
-10325 < x < 46813
+playerOffsetMs: 46813
+```
+First: "videoOffsetTimeMsec": "30303"  
+Last: "videoOffsetTimeMsec": "69224"
+```
 
-Lower bound: -22347
-Upper bound: 14141
+playerOffsetMs: 69224
+```
+First: "videoOffsetTimeMsec": "45318"  
+Last: "videoOffsetTimeMsec": "81621"
+```
 
-To get more messages for timestamp, do x - 22347. This results in more messages starting from the timestamp because we get less previous messages.  
-Overall messages starting from x: 14141 + 22347 = 36488
+When playerOffsetMs is < 5000, it will grab all the negative timestamp messages.
 
 ### Example curl to fetch messages:
 
-* [CURL](example-curl.md)
+* [CURL](documentation/example-curl.md)
 
 # References
 

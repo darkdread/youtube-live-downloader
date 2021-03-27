@@ -20,15 +20,11 @@ namespace yld {
 			std::vector<string> m_text;
 			std::string m_author;
             std::string m_authorThumbnail;
-			unsigned long long m_messageTime;
-
-            unsigned long to_epoch_time(){
-                return (unsigned long) (m_messageTime / 100000);
-            }
+			unsigned long m_messageTime;
 
             ChatReplayItem(){}
 
-            ChatReplayItem(std::vector<string> & p_text, std::string & p_author, std::string & p_authorThumbnail, unsigned long long & p_messageTime){
+            ChatReplayItem(std::vector<string> & p_text, std::string & p_author, std::string & p_authorThumbnail, unsigned long & p_messageTime){
                 m_text = p_text;
                 m_author = p_author;
                 m_authorThumbnail = p_authorThumbnail;

@@ -81,7 +81,6 @@ int main(int argc, char** argv)
 		if (outputFile != ""){
 			// kekw.OutputToFile(outputFile);
 		}
-		std::cout << &kekw.m_response << std::endl;
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions
 	{ std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl; }

@@ -7,7 +7,7 @@
         {
             "type": "cppvsdbg",
             "request": "launch",
-            "name": "Debug",
+            "name": "Debug ytchatdl",
             "program": "${workspaceFolder}/build/ytchatdl.exe",
             "args": [
                 "-c",
@@ -15,9 +15,22 @@
                 "--innerkey",
                 "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
                 "--timestart",
+                "0",
+                "--timeend",
                 "99999",
                 "-o",
-                "hello.json"
+                "${workspaceFolder}/build/hello.json"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "cppvsdbg",
+            "request": "launch",
+            "name": "Debug ytchatrender",
+            "program": "${workspaceFolder}/build/ytchatrender.exe",
+            "args": [
+                "-i",
+                "${workspaceFolder}/build/hello.json"
             ],
             "cwd": "${workspaceFolder}"
         }
