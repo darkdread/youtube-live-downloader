@@ -85,21 +85,21 @@ namespace yld {
         m_timeStart = start;
         m_timeEnd = end;
 
-        // // Send requests
-        // unsigned long startOffset = start;
-        // std::vector<ChatResponse> responses;
-        // ChatResponse r = SendChatRequest(continuation, innertube_key, startOffset);
-        // do {
-        //     // End of video.
-        //     if (r.m_lastMessageTime == startOffset){
-        //         break;
-        //     }
-        //     startOffset = r.m_lastMessageTime + OFFSET_START;
-        //     responses.push_back(r);
-        //     r = SendChatRequest(continuation, innertube_key, startOffset);
-        // } while(r.m_lastMessageTime < end);
+        // Send requests
+        unsigned long startOffset = start;
+        std::vector<ChatResponse> responses;
+        ChatResponse r = SendChatRequest(continuation, innertube_key, startOffset);
+        do {
+            // End of video.
+            if (r.m_lastMessageTime == startOffset){
+                break;
+            }
+            startOffset = r.m_lastMessageTime + OFFSET_START;
+            responses.push_back(r);
+            r = SendChatRequest(continuation, innertube_key, startOffset);
+        } while(r.m_lastMessageTime < end);
 
-        // m_responses = responses;
+        m_responses = responses;
 
         // // Read youtube response
         // std::ifstream t("documentation/timestamp99999.json");
@@ -108,15 +108,6 @@ namespace yld {
 
         // std::string jsonString = buffer.str();
         // ChatResponse r = BuildChatResponseFromString(jsonString);
-
-        // Read ChatResponses
-        std::ifstream t("build/hello.json");
-        std::stringstream buffer;
-        buffer << t.rdbuf();
-
-        nlohmann::json j = nlohmann::json::parse(buffer.str());
-        std::vector<ChatResponse> responses;
-        ChatResponse::from_json(j, responses);
     }
 
 }

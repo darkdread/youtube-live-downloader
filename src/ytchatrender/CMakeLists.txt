@@ -6,4 +6,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 
 add_executable(ytchatrender ${CMAKE_CURRENT_LIST_DIR}/main.cpp)
 target_include_directories(ytchatrender PRIVATE ${TCLAP_INCLUDE_DIRS})
+# target_include_directories(ytchatrender PRIVATE ${CMAKE_SOURCE_DIR}/third_party/skia)
+# target_include_directories(ytchatrender PRIVATE "E:/dev/Git/skia")
 target_link_libraries(ytchatrender PRIVATE nlohmann_json nlohmann_json::nlohmann_json)
+# target_link_libraries(ytchatrender PRIVATE ${CMAKE_SOURCE_DIR}/skia.lib)
