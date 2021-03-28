@@ -1,8 +1,7 @@
 #ifndef YT_CHAT_RESPONSE_H
 #define YT_CHAT_RESPONSE_H
-#endif
 
-#include <iostream>
+#include <fstream>
 #include "chatreplayitem.h"
 
 using namespace std;
@@ -76,3 +75,5 @@ namespace yld {
 	};
 
 }
+
+#endif

@@ -1,8 +1,9 @@
 #include <iostream>
 #include <tclap/CmdLine.h>
 #include <nlohmann/json.hpp>
-#include <yld/chat.h>
-// #include <include/core/SkCanvas.h>
+#include <yld/chatresponse.h>
+// #include <yld/chatwindow.h>
+// #include "include/core/SkCanvas.h"
 
 using namespace std;
 
@@ -34,6 +35,7 @@ int main(int argc, char** argv)
 	
 	std::cout << "InputFile: " << chatResponseJsonFile << std::endl;
 	std::cout << "OutputFile: " << outputFile << std::endl;
+	// std::cout << max(1, 5) << std::endl;
 
 	std::vector<yld::ChatResponse> chatResponses;
 	yld::ChatResponse::ReadFileToChatResponses(chatResponseJsonFile, chatResponses);

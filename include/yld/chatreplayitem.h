@@ -1,6 +1,5 @@
 #ifndef YT_CHAT_REPLAY_ITEM_H
 #define YT_CHAT_REPLAY_ITEM_H
-#endif
 
 #include <iostream>
 
@@ -84,3 +83,5 @@ namespace yld {
 	};
 
 }
+
+#endif

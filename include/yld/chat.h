@@ -22,6 +22,7 @@ namespace yld {
 
 		public:
 			std::vector<ChatResponse> m_responses;
+			Chat(std::string &youtubeId);
 			Chat(std::string &continuation, std::string &innertube_key, unsigned long &start, unsigned long &end);
 			void OutputToFile(std::string &filePath){
 				ofstream opFile;

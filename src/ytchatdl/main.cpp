@@ -76,7 +76,9 @@ int main(int argc, char** argv)
 		std::cout << "TimeEnd: " << timeEnd << std::endl;
 		std::cout << "OutputFile: " << outputFile << std::endl;
 
-		yld::Chat kekw{continuation, innerKey, timeStart, timeEnd};
+		std::string youtubeId = "sErOCsXpnKM";
+		yld::Chat kekw{youtubeId};
+		// yld::Chat kekw{continuation, innerKey, timeStart, timeEnd};
 
 		if (outputFile != ""){
 			// kekw.OutputToFile(outputFile);

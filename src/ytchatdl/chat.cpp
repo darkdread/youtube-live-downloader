@@ -110,4 +110,9 @@ namespace yld {
         // ChatResponse r = BuildChatResponseFromString(jsonString);
     }
 
+    Chat::Chat(std::string & youtubeId){
+        cpr::Response r = cpr::Get(cpr::Url{"https://www.youtube.com/watch?v=" + youtubeId});
+        
+    }
+
 }
