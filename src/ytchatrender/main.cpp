@@ -2,7 +2,7 @@
 #include <tclap/CmdLine.h>
 #include <nlohmann/json.hpp>
 #include <yld/chatresponse.h>
-// #include <yld/chatwindow.h>
+#include <yld/chatwindow.h>
 // #include "include/core/SkCanvas.h"
 
 using namespace std;
@@ -39,6 +39,8 @@ int main(int argc, char** argv)
 
 	std::vector<yld::ChatResponse> chatResponses;
 	yld::ChatResponse::ReadFileToChatResponses(chatResponseJsonFile, chatResponses);
+
+	yld::ChatWindow myWindow{800, 600};
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions
 	{ std::cerr << "error: " << e.error() << " for arg " << e.argId() << std::endl; }

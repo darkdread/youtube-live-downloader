@@ -1,5 +1,6 @@
 #include <yld/chat.h>
 #include <fstream>
+#include <regex>
 
 namespace yld {
 
@@ -110,9 +111,53 @@ namespace yld {
         // ChatResponse r = BuildChatResponseFromString(jsonString);
     }
 
-    Chat::Chat(std::string & youtubeId){
+    Chat Chat::FromVideoId(std::string & youtubeId, unsigned long &start, unsigned long &end){
         cpr::Response r = cpr::Get(cpr::Url{"https://www.youtube.com/watch?v=" + youtubeId});
-        
+        std::string resp = r.text;
+
+        std::regex rYtInitialData("ytInitialData\\s?=\\s?(\\{[\\s\\S]*?(?=\\};))");
+        std::regex rYtInitialPlayerResp("ytInitialPlayerResponse\\s?=\\s?(\\{[\\s\\S]*?(?=\\};))");
+        std::regex rInnertubeApiKey("INNERTUBE_API_KEY\":\\s?\"(.+?)\"");
+        std::smatch rmYtInitialPlayerResp;
+        std::smatch rmYtInitialData;
+        std::smatch rmInnertubeApiKey;
+
+        // std::string out = "test_" + youtubeId + ".html";
+        // Chat::OutputToFile(out, resp);
+
+        // std::ifstream t("test.html");
+        // std::stringstream buffer;
+        // buffer << t.rdbuf();
+        // std::string resp = buffer.str();
+
+        if (!std::regex_search(resp, rmYtInitialPlayerResp, rYtInitialPlayerResp)){
+            throw std::runtime_error("ytInitialPlayerResponse not found");
+        }
+
+        if (!std::regex_search(resp, rmYtInitialData, rYtInitialData)){
+            throw std::runtime_error("ytInitialData not found");
+        }
+
+        if (!std::regex_search(resp, rmInnertubeApiKey, rInnertubeApiKey)){
+            throw std::runtime_error("InnertubeApiKey not found");
+        }
+
+        std::string str2 = rmYtInitialData[1].str() + "}";
+        nlohmann::json ytInitialData = nlohmann::json::parse(str2);
+        if (ytInitialData["contents"]["twoColumnWatchNextResults"]["conversationBar"].is_null()){
+            throw std::runtime_error("Not vod video (probably)");
+        }
+        std::string continuation = ytInitialData["contents"]["twoColumnWatchNextResults"]["conversationBar"]
+                                                ["liveChatRenderer"]["continuations"][0]["reloadContinuationData"]["continuation"];
+
+        std::string str1 = rmYtInitialPlayerResp[1].str() + "}";
+        nlohmann::json ytInitialPlayerResponse = nlohmann::json::parse(str1);
+        unsigned long videoLength = std::stoul(ytInitialPlayerResponse["streamingData"]["formats"][0]["approxDurationMs"].get<std::string>());
+
+        std::string innertubeApiKey = rmInnertubeApiKey[1];
+
+        Chat c{continuation, innertubeApiKey, start, end};
+        return c;
     }
 
 }

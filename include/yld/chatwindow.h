@@ -1,29 +1,30 @@
 #ifndef YT_CHAT_WINDOW_H
 #define YT_CHAT_WINDOW_H
 
-#include "tools/sk_app/Application.h"
-#include "tools/sk_app/Window.h"
+#include <GLFW/glfw3.h>
+#define SK_GL
+#include "skia/gpu/GrBackendSurface.h"
+#include "skia/gpu/GrDirectContext.h"
+#include "skia/gpu/gl/GrGLInterface.h"
+
+#include "skia/core/SkCanvas.h"
+#include "skia/core/SkGraphics.h"
+#include "skia/core/SkImageEncoder.h"
+#include "skia/core/SkString.h"
+#include "skia/private/SkTemplates.h"
+#include "skia/core/SkTypeface.h"
 
 namespace yld {
 
-    class ChatWindow : public sk_app::Application, sk_app::Window::Layer {
+    class ChatWindow {
         public:
-            ChatWindow(int argc, char** argv, void* platformData);
-            ~ChatWindow() override;
-
-            void onIdle() override;
-
-            void onBackendCreated() override;
-            void onPaint(SkSurface*) override;
-            bool onChar(SkUnichar c, skui::ModifierKey modifiers) override;
+            GrDirectContext* sContext = nullptr;
+            SkSurface* sSurface = nullptr;
+            GLFWwindow* window;
+            ChatWindow(int width, int height);
 
         private:
-            void updateTitle();
-
-            sk_app::Window* fWindow;
-            sk_app::Window::BackendType fBackendType;
-
-            SkScalar fRotationAngle;
+            void init_skia(int width, int height);
     };
 
 }

@@ -22,16 +22,13 @@ namespace yld {
 
 		public:
 			std::vector<ChatResponse> m_responses;
-			Chat(std::string &youtubeId);
+			static Chat FromVideoId(std::string &youtubeId, unsigned long &start, unsigned long &end);
 			Chat(std::string &continuation, std::string &innertube_key, unsigned long &start, unsigned long &end);
-			void OutputToFile(std::string &filePath){
+			static void OutputToFile(std::string &filePath, std::string &text){
 				ofstream opFile;
 				opFile.open(filePath);
 
-				nlohmann::json j;
-				ChatResponse::to_json(j, m_responses);
-
-				opFile << j;
+				opFile << text;
 				opFile.close();
 			}
 	};

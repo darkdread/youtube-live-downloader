@@ -1,121 +1,94 @@
-/*
-* Copyright 2017 Google Inc.
-*
-* Use of this source code is governed by a BSD-style license that can be
-* found in the LICENSE file.
-*/
-
+#include <fstream>
+#include <iostream>
 #include "yld/chatwindow.h"
 
-#include "include/core/SkCanvas.h"
-#include "include/core/SkFont.h"
-#include "include/core/SkGraphics.h"
-#include "include/core/SkSurface.h"
-#include "include/effects/SkGradientShader.h"
+#include "skia/core/SkCanvas.h"
+#include "skia/core/SkFont.h"
+#include "skia/core/SkGraphics.h"
+#include "skia/core/SkSurface.h"
+#include "skia/core/SkImageEncoder.h"
+#include "skia/core/SkEncodedImageFormat.h"
+#include "skia/effects/SkGradientShader.h"
 
-using namespace sk_app;
+#include "skia/core/SkData.h"
+#include "skia/core/SkDocument.h"
+#include "skia/core/SkImage.h"
+#include "skia/core/SkStream.h"
+#include "skia/core/SkString.h"
+#include "skia/core/SkBitmap.h"
+
 using namespace yld;
 
-Application* Application::Create(int argc, char** argv, void* platformData) {
-    return new ChatWindow(argc, argv, platformData);
+void ChatWindow::init_skia(int w, int h) {
+	auto interface = GrGLMakeNativeInterface();
+	sContext = GrDirectContext::MakeGL(interface).release();
+
+	GrGLFramebufferInfo framebufferInfo;
+	framebufferInfo.fFBOID = 0; // assume default framebuffer
+	// We are always using OpenGL and we use RGBA8 internal format for both RGBA and BGRA configs in OpenGL.
+	//(replace line below with this one to enable correct color spaces) framebufferInfo.fFormat = GL_SRGB8_ALPHA8;
+	framebufferInfo.fFormat = GL_RGBA8;
+
+	SkColorType colorType = kRGBA_8888_SkColorType;
+	GrBackendRenderTarget backendRenderTarget(w, h,
+		0, // sample count
+		0, // stencil bits
+		framebufferInfo);
+
+	//(replace line below with this one to enable correct color spaces) sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, SkColorSpace::MakeSRGB(), nullptr).release();
+	sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, nullptr).release();
+	if (sSurface == nullptr) abort();
 }
 
-ChatWindow::ChatWindow(int argc, char** argv, void* platformData)
-        : fBackendType(Window::kRaster_BackendType)
-        , fRotationAngle(0) {
-    SkGraphics::Init();
+ChatWindow::ChatWindow(int width, int height){
+    GLFWwindow* window;
 
-    fWindow = Window::CreateNativeWindow(platformData);
-    fWindow->setRequestedDisplayParams(DisplayParams());
+    /* Initialize the library */
+    if (!glfwInit())
+        return;
 
-    // register callbacks
-    fWindow->pushLayer(this);
-
-    fWindow->attach(fBackendType);
-}
-
-ChatWindow::~ChatWindow() {
-    fWindow->detach();
-    delete fWindow;
-}
-
-void ChatWindow::updateTitle() {
-    if (!fWindow || fWindow->sampleCount() <= 1) {
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
         return;
     }
 
-    SkString title("Hello World ");
-    title.append(Window::kRaster_BackendType == fBackendType ? "Raster" : "OpenGL");
-    fWindow->setTitle(title.c_str());
-}
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
 
-void ChatWindow::onBackendCreated() {
-    this->updateTitle();
-    fWindow->show();
-    fWindow->inval();
-}
-
-void ChatWindow::onPaint(SkSurface* surface) {
-    auto canvas = surface->getCanvas();
-
-    // Clear background
-    canvas->clear(SK_ColorWHITE);
-
-    SkPaint paint;
-    paint.setColor(SK_ColorRED);
-
-    // Draw a rectangle with red paint
-    SkRect rect = SkRect::MakeXYWH(10, 10, 128, 128);
-    canvas->drawRect(rect, paint);
-
-    // Set up a linear gradient and draw a circle
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
     {
-        SkPoint linearPoints[] = { { 0, 0 }, { 300, 300 } };
-        SkColor linearColors[] = { SK_ColorGREEN, SK_ColorBLACK };
-        paint.setShader(SkGradientShader::MakeLinear(linearPoints, linearColors, nullptr, 2,
-                                                     SkTileMode::kMirror));
-        paint.setAntiAlias(true);
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
 
-        canvas->drawCircle(200, 200, 64, paint);
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
 
-        // Detach shader
-        paint.setShader(nullptr);
+        /* Poll for and process events */
+        glfwPollEvents();
     }
 
-    // Draw a message with a nice black paint
-    SkFont font;
-    font.setSubpixel(true);
-    font.setSize(20);
-    paint.setColor(SK_ColorBLACK);
+    glfwTerminate();
+};
 
-    canvas->save();
-    static const char message[] = "Hello World";
 
-    // Translate and rotate
-    canvas->translate(300, 300);
-    fRotationAngle += 0.2f;
-    if (fRotationAngle > 360) {
-        fRotationAngle -= 360;
-    }
-    canvas->rotate(fRotationAngle);
+// SkBitmap bitmap;
+//     bitmap.allocPixels(SkImageInfo::MakeN32Premul(width, height));
+//     SkCanvas canvas(bitmap);
+//     canvas.drawColor(SK_ColorWHITE);
 
-    // Draw the text
-    canvas->drawSimpleText(message, strlen(message), SkTextEncoding::kUTF8, 0, 0, font, paint);
+//     SkPaint paint;
+//     paint.setAntiAlias(true);
+//     paint.setColor(SK_ColorRED);
+//     SkRect rect = {
+//         20, 20,
+//         (float) width, 50
+//     };
+//     canvas.drawRect(rect, paint);
 
-    canvas->restore();
-}
-
-void ChatWindow::onIdle() {
-    // Just re-paint continously
-    fWindow->inval();
-}
-
-bool ChatWindow::onChar(SkUnichar c, skui::ModifierKey modifiers) {
-    if (' ' == c) {
-        fBackendType = Window::kRaster_BackendType == fBackendType ? Window::kRaster_BackendType
-                                                                   : Window::kRaster_BackendType;
-        fWindow->detach();
-        fWindow->attach(fBackendType);
-    }
-    return true;
-}
+//     SkFILEWStream myfile{"myfile.png"};
+//     SkWStream* mystream = &myfile;
+//     SkEncodeImage(mystream, bitmap, SkEncodedImageFormat::kPNG, 0);

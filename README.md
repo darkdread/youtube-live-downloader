@@ -20,6 +20,7 @@ Dependencies:
 * [TCLAP](https://github.com/mirror/tclap)
 * [cpr](https://github.com/whoshuu/cpr)
 * [nlohmann-json](https://github.com/nlohmann/json)
+* [skia](https://github.com/google/skia)
 
 ## CMake
 
@@ -28,6 +29,12 @@ Building for debug ver:
 
 If using cmake-tools, modify `toolchainFile`.
 > "toolchainFile": "${vckpgRoot}\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
+
+## Skia
+
+Modify skiaConfig.cmake file to build properly, there is an issue with debug libraries. Comment out `set_dependencies(Debug "${SKIA_DEP_DBG}")`.
+
+Path: `vcpkg\installed\x64-windows\share\skia`
 
 # Youtube Page
 

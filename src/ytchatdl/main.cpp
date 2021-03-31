@@ -24,15 +24,18 @@ int main(int argc, char** argv)
 	// A value arg defines a flag and a type of value that it expects,
 	// such as "-n Bishop".
 	TCLAP::ValueArg<std::string> continuationArg("c","continuation","Continuation key of youtube live chat. "
-												 "README for more information.",true,"homer","string");
+												 "README for more information.",false,"homer","string");
 
 	// Add the argument nameArg to the CmdLine object. The CmdLine object
 	// uses this Arg to parse the command line.
 	cmd.add( continuationArg );
 
 	TCLAP::ValueArg<std::string> innerKeyArg("k","innerkey","Innertube api key of youtube live chat. "
-												 "README for more information.",true,"homer","string");
+												 "README for more information.",false,"homer","string");
 	cmd.add( innerKeyArg );
+
+	TCLAP::ValueArg<std::string> videoIdArg("v","videoid","Youtube video's id.",true,"","string");
+	cmd.add( videoIdArg );
 
 	TCLAP::ValueArg<std::string> timeStartArg("", "timestart","When to start fetching chat result",false,"homer","int");
 	cmd.add( timeStartArg );
@@ -58,6 +61,7 @@ int main(int argc, char** argv)
 	// Get the value parsed by each arg. 
 	std::string continuation = continuationArg.getValue();
 	std::string innerKey = innerKeyArg.getValue();
+	std::string videoId = videoIdArg.getValue();
 	bool reverseName = reverseSwitch.getValue();
 	std::string outputFile = outputFileArg.getValue();
 
@@ -71,17 +75,18 @@ int main(int argc, char** argv)
 		std::cout << "My name (spelled backwards) is: " << continuation << std::endl;
 	}
 	else
-		std::cout << "Continuation: " << continuation << std::endl;
+		std::cout << "VideoId: " << videoId << std::endl;
 		std::cout << "TimeStart: " << timeStart << std::endl;
 		std::cout << "TimeEnd: " << timeEnd << std::endl;
 		std::cout << "OutputFile: " << outputFile << std::endl;
 
-		std::string youtubeId = "sErOCsXpnKM";
-		yld::Chat kekw{youtubeId};
-		// yld::Chat kekw{continuation, innerKey, timeStart, timeEnd};
+		yld::Chat kekw = yld::Chat::FromVideoId(videoId, timeStart, timeEnd);
 
 		if (outputFile != ""){
-			// kekw.OutputToFile(outputFile);
+			nlohmann::json j;
+			yld::ChatResponse::to_json(j, kekw.m_responses);
+			std::string s = j.dump();
+			yld::Chat::OutputToFile(outputFile, s);
 		}
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions
