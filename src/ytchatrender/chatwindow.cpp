@@ -2,23 +2,24 @@
 #include <iostream>
 #include "yld/chatwindow.h"
 
-#include "skia/core/SkCanvas.h"
-#include "skia/core/SkFont.h"
-#include "skia/core/SkGraphics.h"
-#include "skia/core/SkSurface.h"
-#include "skia/core/SkImageEncoder.h"
-#include "skia/core/SkEncodedImageFormat.h"
-#include "skia/effects/SkGradientShader.h"
+#include "include/core/SkCanvas.h"
+#include "include/core/SkFont.h"
+#include "include/core/SkGraphics.h"
+#include "include/core/SkSurface.h"
+#include "include/core/SkImageEncoder.h"
+#include "include/core/SkEncodedImageFormat.h"
+#include "include/effects/SkGradientShader.h"
 
-#include "skia/core/SkData.h"
-#include "skia/core/SkDocument.h"
-#include "skia/core/SkImage.h"
-#include "skia/core/SkStream.h"
-#include "skia/core/SkString.h"
-#include "skia/core/SkBitmap.h"
+#include "include/core/SkData.h"
+#include "include/core/SkDocument.h"
+#include "include/core/SkImage.h"
+#include "include/core/SkStream.h"
+#include "include/core/SkString.h"
+#include "include/core/SkBitmap.h"
 
 using namespace yld;
 
+// https://gist.github.com/ad8e/dd150b775ae6aa4d5cf1a092e4713add
 void ChatWindow::init_skia(int w, int h) {
 	auto interface = GrGLMakeNativeInterface();
 	sContext = GrDirectContext::MakeGL(interface).release();
@@ -37,7 +38,13 @@ void ChatWindow::init_skia(int w, int h) {
 
 	//(replace line below with this one to enable correct color spaces) sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, SkColorSpace::MakeSRGB(), nullptr).release();
 	sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, nullptr).release();
+    // sSurface = SkSurface::MakeFromBackendRenderTarget(sContext, backendRenderTarget, kBottomLeft_GrSurfaceOrigin, colorType, SkColorSpace::MakeSRGB(), nullptr).release();
 	if (sSurface == nullptr) abort();
+}
+
+void ChatWindow::cleanup_skia() {
+	delete sSurface;
+	delete sContext;
 }
 
 ChatWindow::ChatWindow(int width, int height){
@@ -58,18 +65,40 @@ ChatWindow::ChatWindow(int width, int height){
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    init_skia(width, height);
+
+    glfwSwapInterval(1);
+    SkCanvas* canvas = sSurface->getCanvas();
+    float yRect = 0;
+
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
+        canvas->drawColor(SK_ColorWHITE);
+
+        SkPaint paint;
+        paint.setAntiAlias(true);
+        paint.setColor(SK_ColorRED);
+        SkRect rect = {
+            (float) width / 2, 0,
+            (float) width, yRect
+        };
+        canvas->drawRect(rect, paint);
+        sContext->flush();
+
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 
         /* Poll for and process events */
         glfwPollEvents();
+
+        yRect++;
     }
+
+    cleanup_skia();
 
     glfwTerminate();
 };

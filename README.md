@@ -20,7 +20,38 @@ Dependencies:
 * [TCLAP](https://github.com/mirror/tclap)
 * [cpr](https://github.com/whoshuu/cpr)
 * [nlohmann-json](https://github.com/nlohmann/json)
-* [skia](https://github.com/google/skia)
+* [skia](https://github.com/google/skia) (DEPRECATED)
+
+### Vcpkg Skia (DEPRECATED)
+
+This version of skia does not include the necessary header file needed for opengl: `skia\include\gpu\GrDirectContext.h`
+
+Modify skiaConfig.cmake file to build properly, there is an issue with debug libraries. Comment out `set_dependencies(Debug "${SKIA_DEP_DBG}")`.  
+Path: `vcpkg\installed\x64-windows\share\skia`
+
+### Building Skia from Google (Windows)
+
+Use the following args to generate ninja files.
+
+```
+is_debug = false
+skia_use_system_expat = false
+skia_use_system_libjpeg_turbo = false
+skia_use_system_libpng = false
+skia_use_system_libwebp = false
+skia_use_system_zlib = false
+skia_use_system_icu = false
+skia_use_system_harfbuzz = false
+skia_use_gl = true
+extra_cflags = [ "/MDd" ]
+```
+
+> gn gen out/Debug --args
+
+Copy skia.lib and opengl32.lib to third_party/skia.
+
+Opengl32.lib from winsdk:
+> C:\Program Files (x86)\Windows Kits\10\Lib\10.0.18362.0\um\x64
 
 ## CMake
 
@@ -29,12 +60,6 @@ Building for debug ver:
 
 If using cmake-tools, modify `toolchainFile`.
 > "toolchainFile": "${vckpgRoot}\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
-
-## Skia
-
-Modify skiaConfig.cmake file to build properly, there is an issue with debug libraries. Comment out `set_dependencies(Debug "${SKIA_DEP_DBG}")`.
-
-Path: `vcpkg\installed\x64-windows\share\skia`
 
 # Youtube Page
 

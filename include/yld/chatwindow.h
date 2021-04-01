@@ -3,16 +3,16 @@
 
 #include <GLFW/glfw3.h>
 #define SK_GL
-#include "skia/gpu/GrBackendSurface.h"
-#include "skia/gpu/GrDirectContext.h"
-#include "skia/gpu/gl/GrGLInterface.h"
+#include "include/gpu/GrBackendSurface.h"
+#include "include/gpu/GrDirectContext.h"
+#include "include/gpu/gl/GrGLInterface.h"
 
-#include "skia/core/SkCanvas.h"
-#include "skia/core/SkGraphics.h"
-#include "skia/core/SkImageEncoder.h"
-#include "skia/core/SkString.h"
-#include "skia/private/SkTemplates.h"
-#include "skia/core/SkTypeface.h"
+#include "include/core/SkCanvas.h"
+#include "include/core/SkGraphics.h"
+#include "include/core/SkImageEncoder.h"
+#include "include/core/SkString.h"
+#include "include/private/SkTemplates.h"
+#include "include/core/SkTypeface.h"
 
 namespace yld {
 
@@ -21,9 +21,11 @@ namespace yld {
             GrDirectContext* sContext = nullptr;
             SkSurface* sSurface = nullptr;
             GLFWwindow* window;
+
             ChatWindow(int width, int height);
 
         private:
+            void cleanup_skia();
             void init_skia(int width, int height);
     };
 
