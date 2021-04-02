@@ -89,6 +89,8 @@ SkUnichar getSkUnichar(std::string &s, int offset, int dataSize = 0){
 }
 
 ChatWindow::ChatWindow(int width, int height){
+    fontManager = SkFontMgr::RefDefault();
+
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -132,10 +134,9 @@ ChatWindow::ChatWindow(int width, int height){
         // sCanvas->drawRect(rect, paint);
 
         SkFontStyle fontStyle;
-        sk_sp<SkFontMgr> fontManager = SkFontMgr::RefDefault();
 
-        std::string message = "🚀";
-        SkUnichar sUc = getSkUnichar(fuck, 0);
+        std::string message = "🚀ز🚀";
+        SkUnichar sUc = getSkUnichar(message, 0);
 
         sk_sp<SkTypeface> tf (fontManager->matchFamilyStyleCharacter(nullptr, fontStyle, nullptr, 0, sUc));
         SkFont sFont{tf, 12.0f, 1.0f, 0.0f};
@@ -162,23 +163,52 @@ ChatWindow::ChatWindow(int width, int height){
 };
 
 void ChatWindow::AddMessage(std::string message, SkFont &sFont, SkPaint &sPaint){
-
+    SkFont font = sFont;
     for (int i = 0; i < message.size(); i++)
     {
-        const char c = message[i];
-        sk_sp<SkTextBlob> sBlob = SkTextBlob::MakeFromString("🚀", sFont);
-        sCanvas->drawTextBlob(sBlob.get(), drawPosX, sFont.getSize(), sPaint);
+        char s[5] = {message[i]};
+        unsigned char dank = s[0];
+
+        SkTypeface * tf = font.getTypeface();
+        SkUnichar sUnichar = getSkUnichar(message, i);
+        SkGlyphID id[1] {tf->unicharToGlyph(sUnichar)};
+
+        if (id[0] == 0){
+            // Not supported
+            sk_sp<SkTypeface> tff (fontManager->matchFamilyStyleCharacter(nullptr, SkFontStyle(), nullptr, 0, sUnichar));
+            font = SkFont{tff, 12.0f, 1.0f, 0.0f};
+            id[0] = tff->unicharToGlyph(sUnichar);
+        }
+
+        if (dank >> 3 == 30){
+            s[1] = message[i + 1];
+            s[2] = message[i + 2];
+            s[3] = message[i + 3];
+            i += 3;
+        }
+        if (dank >> 4 == 14){
+            s[1] = message[i + 1];
+            s[2] = message[i + 2];
+            i += 2;
+        }
+        if (dank >> 5 == 6){
+            s[1] = message[i + 1];
+            i += 1;
+        }
+
+        sk_sp<SkTextBlob> sBlob = SkTextBlob::MakeFromString(s, font);
+        sCanvas->drawTextBlob(sBlob.get(), drawPosX, font.getSize(), sPaint);
 
         // SkString sString{c};
         // sCanvas->drawString(sString, drawPosX, sFont.getSize(), sFont, sPaint);
-
-        drawPosX += sFont.getSize();
+        SkScalar skScalar[1];
+        font.getWidths(id, 1, skScalar);
+        drawPosX += skScalar[0];
         if (drawPosX > width){
             drawPosX = 0;
         }
     }
 }
-
 
 // SkBitmap bitmap;
 //     bitmap.allocPixels(SkImageInfo::MakeN32Premul(width, height));

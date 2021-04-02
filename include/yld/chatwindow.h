@@ -40,6 +40,7 @@ namespace yld {
             void AddMessage(std::string message, SkFont &sFont, SkPaint &sPaint);
 
         private:
+            sk_sp<SkFontMgr> fontManager;
             SkScalar drawPosX = 0.0f;
             SkPaint paint2;
             void cleanup_skia();
