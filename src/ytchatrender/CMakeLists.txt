@@ -9,7 +9,7 @@ find_package(glfw3 CONFIG REQUIRED)
 
 message("hello ${CMAKE_CXX_FLAGS_DEBUG}")
 # SET(CMAKE_CXX_FLAGS_DEBUG "-g -Xclang -gcodeview -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd")
-message("hello ${CMAKE_CXX_FLAGS_DEBUG}")
+# message("hello ${CMAKE_CXX_FLAGS_DEBUG}")
 
 add_executable(ytchatrender ${CMAKE_CURRENT_LIST_DIR}/main.cpp ${CMAKE_CURRENT_LIST_DIR}/chatwindow.cpp)
 

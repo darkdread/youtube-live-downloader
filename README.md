@@ -34,6 +34,7 @@ Path: `vcpkg\installed\x64-windows\share\skia`
 Use the following args to generate ninja files.
 
 ```
+is_official_build = true
 is_debug = false
 skia_use_system_expat = false
 skia_use_system_libjpeg_turbo = false
