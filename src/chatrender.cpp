@@ -104,6 +104,7 @@ SkUnichar getSkUnichar(std::string &s, int offset, int dataSize){
 
 void ChatRender::setFontSize(int size){
     fFontSize = size;
+    fFont = SkFont(fTypef, fFontSize, 1.0f, 0.0f);
 }
 
 void ChatRender::setTypeface(const char* familyName){

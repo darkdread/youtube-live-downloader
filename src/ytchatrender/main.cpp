@@ -42,6 +42,7 @@ int main(int argc, char** argv)
 	// std::thread t1(yld::ChatWindow);
 	yld::YtChatRender myWindow{800, 600};
 	myWindow.drawUnsupportedGlyph(true);
+	myWindow.setFontSize(40);
 
 	std::vector<yld::ChatReplayItem> items;
 	yld::ChatResponse::BuildChatReplayItems(chatResponses, items);
