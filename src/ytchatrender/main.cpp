@@ -41,8 +41,14 @@ int main(int argc, char** argv)
 
 	// std::thread t1(yld::ChatWindow);
 	yld::YtChatRender myWindow{800, 600};
+	SkPaint tsPaint;
+	tsPaint.setColor(SK_ColorBLUE);
+	myWindow.setTimestampPaint(tsPaint);
+	myWindow.setTimestampTypeface("Press Start 2P", SkFontStyle::Normal());
+	myWindow.setTimestampFontSize(12);
+
 	myWindow.drawUnsupportedGlyph(true);
-	myWindow.setFontSize(40);
+	myWindow.setFontSize(30);
 
 	std::vector<yld::ChatReplayItem> items;
 	yld::ChatResponse::BuildChatReplayItems(chatResponses, items);

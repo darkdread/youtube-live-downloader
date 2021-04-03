@@ -26,8 +26,26 @@ namespace yld {
 
             YtChatRender(int width, int height);
             void addMessage(ChatReplayItem &item);
+            void setTimestampPaint(SkPaint &paint){
+                fTsPaint = paint;
+            }
+            void setTimestampTypeface(const char* familyName, SkFontStyle fontStyle){
+                fTsTypef = sk_sp<SkTypeface>(FMGR->matchFamilyStyle(familyName, fontStyle));
+                if (fTsTypef == nullptr){
+                    return;
+                }
+                fTsFont = SkFont(fTsTypef, fFontSize, 1.0f, 0.0f);
+            }
+            void setTimestampFontSize(int size){
+                fTsFontSize = size;
+                fTsFont = SkFont(fTsTypef, size, 1.0f, 0.0f);
+            }
         private:
+            SkPaint fTsPaint;
+            SkFont fTsFont;
+            sk_sp<SkTypeface> fTsTypef;
             SkColor fMemberBgColor = SkColorSetARGB(255,15,157,88);
+            int fTsFontSize;
             void addMembershipMessage(ChatReplayItem &item);
     };
 

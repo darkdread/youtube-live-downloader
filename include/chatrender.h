@@ -30,7 +30,7 @@ class ChatRender {
         ChatRender(int width, int height);
         void renderGl();
         void setFontSize(int size);
-        void setTypeface(const char* familyName);
+        void setTypeface(const char* familyName, SkFontStyle fontStyle);
         void drawText(std::string message, SkFont &sFont, SkPaint &sPaint);
         void addMessage(std::string message, SkFont &sFont, SkPaint &sPaint);
         void encodeToFile();

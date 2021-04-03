@@ -86,7 +86,8 @@ int main(int argc, char** argv)
 			nlohmann::json j;
 			yld::ChatResponse::to_json(j, kekw.m_responses);
 			std::string s = j.dump();
-			yld::Chat::OutputToFile(outputFile, s);
+			char* oF = &outputFile[0];
+			yld::Chat::OutputToFile(oF, s);
 		}
 
 	} catch (TCLAP::ArgException &e)  // catch exceptions

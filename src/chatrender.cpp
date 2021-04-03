@@ -4,9 +4,11 @@
 #include <iomanip>
 #include <sstream>
 
+// #include "skia/ports/SkTypeface_win.h"
 #include "chatrender.h"
 
 const sk_sp<SkFontMgr> ChatRender::FMGR(SkFontMgr::RefDefault());
+// const sk_sp<SkFontMgr> ChatRender::FMGR = SkFontMgr_New_DirectWrite();
 
 // https://gist.github.com/ad8e/dd150b775ae6aa4d5cf1a092e4713add
 void ChatRender::init_skia(int w, int h) {
@@ -107,9 +109,12 @@ void ChatRender::setFontSize(int size){
     fFont = SkFont(fTypef, fFontSize, 1.0f, 0.0f);
 }
 
-void ChatRender::setTypeface(const char* familyName){
-    SkFontStyle fontStyle = SkFontStyle::Normal();
+void ChatRender::setTypeface(const char* familyName, SkFontStyle fontStyle){
     fTypef = sk_sp<SkTypeface>(FMGR->matchFamilyStyle(familyName, fontStyle));
+    if (fTypef == nullptr){
+        return;
+    }
+    fFont = SkFont(fTypef, fFontSize, 1.0f, 0.0f);
 }
 
 void ChatRender::create_new_bitmap(SkColor bgColor){
@@ -125,7 +130,7 @@ ChatRender::ChatRender(int width, int height){
     this->width = width;
     this->height = height;
 
-    setTypeface("Tahoma");
+    setTypeface("Tahoma", SkFontStyle::Normal());
     setFontSize(30);
     fFontPaint.setAntiAlias(true);
     fFontPaint.setColor(fFontColor);
@@ -250,13 +255,13 @@ void ChatRender::drawText(std::string message, SkFont &sFont, SkPaint &sPaint){
 }
 
 void ChatRender::addMessage(std::string message, SkFont &sFont, SkPaint &sPaint){
-    drawPosX = 0;
-    drawPosY += fMarginBetweenMsg + sFont.getSize();
+    // drawPosX = 0;
+    // drawPosY += fMarginBetweenMsg + sFont.getSize();
 
-    if (drawPosY > height){
-        drawPosY = sFont.getSize();
-        create_new_bitmap(fBgColor);
-    }
+    // if (drawPosY > height){
+    //     drawPosY = sFont.getSize();
+    //     create_new_bitmap(fBgColor);
+    // }
 
     drawText(message, sFont, sPaint);
 }

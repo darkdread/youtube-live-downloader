@@ -47,7 +47,7 @@ namespace yld {
 				ChatReplayItem::to_json(chatReplayJson, resp.m_chatReplayItems);
 
 				j = nlohmann::json {
-					{"rawResponse", resp.m_rawResponse},
+					// {"rawResponse", resp.m_rawResponse},
 					{"continuation", resp.m_continuation},
 					{"lastMessageTime", resp.m_lastMessageTime},
 					{"chatReplayItems", chatReplayJson}

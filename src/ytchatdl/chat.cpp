@@ -13,17 +13,25 @@ namespace yld {
             nlohmann::json item = j["continuationContents"]["liveChatContinuation"]["actions"][i]["replayChatItemAction"]["actions"][0]["addChatItemAction"]["item"];
             ChatReplayItem::chat_replay_t responseType = ChatReplayItem::chat_replay_t::normal;
 
+            if (item.is_null()) {
+                std::string dump = j["continuationContents"]["liveChatContinuation"]["actions"][i]["replayChatItemAction"]["actions"].dump();
+                OutputToFile("build/debug.json", dump);
+                continue;
+            }
+
             if (!item["liveChatTextMessageRenderer"].is_null()){
                 item = item["liveChatTextMessageRenderer"];
             } else if (!item["liveChatMembershipItemRenderer"].is_null()){
                 responseType = ChatReplayItem::chat_replay_t::membership;
                 item = item["liveChatMembershipItemRenderer"];
-            } else {
+            } else if (!item["liveChatViewerEngagementMessageRenderer"].is_null()) {
+                // Messages sent by youtube. For example: Live chat is on, etc...
                 continue;
             }
 
             std::string author = item["authorName"]["simpleText"];
             std::string thumbnail = item["authorPhoto"]["thumbnails"][0]["url"];
+            std::string tsText = item["timestampText"]["simpleText"];
             std::string ts = j["continuationContents"]["liveChatContinuation"]["actions"][i]["replayChatItemAction"]["videoOffsetTimeMsec"];
             std::vector<string> message;
 
@@ -46,6 +54,7 @@ namespace yld {
             };
 
             cItem.m_responseType = responseType;
+            cItem.m_messageTimestampText = tsText;
 
             chatReplayItems.push_back(cItem);
         }
@@ -90,14 +99,15 @@ namespace yld {
         unsigned long startOffset = start;
         std::vector<ChatResponse> responses;
         ChatResponse r = sendChatRequest(continuation, innertube_key, startOffset);
+        responses.push_back(r);
         do {
             // End of video.
             if (r.m_lastMessageTime == startOffset){
                 break;
             }
             startOffset = r.m_lastMessageTime + OFFSET_START;
+            r = sendChatRequest(r.m_continuation, innertube_key, startOffset);
             responses.push_back(r);
-            r = sendChatRequest(continuation, innertube_key, startOffset);
         } while(r.m_lastMessageTime < end);
 
         m_responses = responses;

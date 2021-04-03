@@ -17,9 +17,9 @@
                 // "--innerkey",
                 // "AIzaSyAO_FJ2SlqU8Q4STEHLGCilw_Y9_11qcW8",
                 "--timestart",
-                "99999",
+                "0",
                 "--timeend",
-                "100000",
+                "200000",
                 "-o",
                 "${workspaceFolder}/build/hello.json"
             ],

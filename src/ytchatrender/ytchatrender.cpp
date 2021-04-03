@@ -9,7 +9,17 @@
 using namespace yld;
 
 YtChatRender::YtChatRender(int width, int height) : ChatRender(width, height){
+    SkPaint tsPaint;
+	tsPaint.setColor(SK_ColorBLUE);
 
+    setTimestampPaint(tsPaint);
+	setTimestampTypeface("Tahoma", SkFontStyle::Normal());
+
+    SkString* familyName = new SkString{};
+    for(int i = 0; i < ChatRender::FMGR.get()->countFamilies(); i++){
+        ChatRender::FMGR.get()->getFamilyName(i, familyName);
+        std::cout << familyName->c_str() << std::endl;
+    }
 }
 
 void YtChatRender::addMembershipMessage(ChatReplayItem &item){
@@ -59,5 +69,15 @@ void YtChatRender::addMessage(ChatReplayItem &item){
         return;
     }
 
+    // Draw timestamp
+    drawPosX = 0;
+    drawPosY += fFontSize + fMarginBetweenMsg;
+
+    if (drawPosY > height){
+        drawPosY = fFontSize;
+        create_new_bitmap(fBgColor);
+    }
+
+    ChatRender::drawText(item.m_messageTimestampText + " ", fTsFont, fTsPaint);
     ChatRender::addMessage(item.m_author + ": " + item.BuildMessage(), fFont, fFontPaint);
 }

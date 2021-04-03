@@ -15,7 +15,7 @@ namespace yld {
 			std::vector<ChatResponse> m_responses;
 			Chat(std::string &continuation, std::string &innertube_key, unsigned long &start, unsigned long &end);
 			static Chat FromVideoId(std::string &youtubeId, unsigned long &start, unsigned long &end);
-			static void OutputToFile(std::string &filePath, std::string &text){
+			static void OutputToFile(const char* filePath, std::string &text){
 				ofstream opFile;
 				opFile.open(filePath);
 

@@ -20,11 +20,12 @@ namespace yld {
 			std::vector<string> m_text;
 			std::string m_author;
             std::string m_authorThumbnail;
+            std::string m_messageTimestampText;
 			unsigned long m_messageTime;
 
             ChatReplayItem(){}
 
-            ChatReplayItem(std::vector<string> & p_text, std::string & p_author, std::string & p_authorThumbnail, unsigned long & p_messageTime){
+            ChatReplayItem(std::vector<string> &p_text, std::string &p_author, std::string &p_authorThumbnail, unsigned long &p_messageTime){
                 m_text = p_text;
                 m_author = p_author;
                 m_authorThumbnail = p_authorThumbnail;
@@ -57,7 +58,8 @@ namespace yld {
                     {"text", chatReplayItem.BuildMessage()},
                     {"author", chatReplayItem.m_author},
                     {"authorThumbnail", chatReplayItem.m_authorThumbnail},
-                    {"messageTime", chatReplayItem.m_messageTime}
+                    {"messageTime", chatReplayItem.m_messageTime},
+                    {"messageTimestampText", chatReplayItem.m_messageTimestampText}
                 };
             }
 
@@ -67,6 +69,7 @@ namespace yld {
                 j.at("authorThumbnail").get_to(chatReplayItem.m_authorThumbnail);
                 j.at("author").get_to(chatReplayItem.m_author);
                 j.at("responseType").get_to(chatReplayItem.m_responseType);
+                j.at("messageTimestampText").get_to(chatReplayItem.m_messageTimestampText);
 
                 chatReplayItem.m_text.push_back(j.at("text"));
             }

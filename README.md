@@ -121,7 +121,7 @@ timestampUsec,    videoOffsetTimeMsec
 
 playerOffsetMs: 0
 ```
-First: "videoOffsetTimeMsec": "0"  
+First: "videoOffsetTimeMsec": "0"
 Last: "videoOffsetTimeMsec": "32672"
 ```
 
