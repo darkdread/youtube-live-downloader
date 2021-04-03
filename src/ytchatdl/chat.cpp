@@ -4,7 +4,7 @@
 
 namespace yld {
 
-    ChatResponse Chat::BuildChatResponseFromString(std::string &p_json){
+    ChatResponse Chat::buildChatResponseFromString(std::string &p_json){
         ChatResponse chatResponse;
         nlohmann::json j = nlohmann::json::parse(p_json);
 
@@ -58,7 +58,7 @@ namespace yld {
         return chatResponse;
     }
 
-    ChatResponse Chat::SendChatRequest(std::string & continuation, std::string & innertube_key, unsigned long & start){
+    ChatResponse Chat::sendChatRequest(std::string & continuation, std::string & innertube_key, unsigned long & start){
         nlohmann::json j = {
             {"context", {
                 {"client", {
@@ -77,7 +77,7 @@ namespace yld {
                             cpr::Body(j.dump()));
 
         m_rawResponse = &r.text;
-        return BuildChatResponseFromString(*m_rawResponse);
+        return buildChatResponseFromString(*m_rawResponse);
     }
 
 
@@ -89,7 +89,7 @@ namespace yld {
         // Send requests
         unsigned long startOffset = start;
         std::vector<ChatResponse> responses;
-        ChatResponse r = SendChatRequest(continuation, innertube_key, startOffset);
+        ChatResponse r = sendChatRequest(continuation, innertube_key, startOffset);
         do {
             // End of video.
             if (r.m_lastMessageTime == startOffset){
@@ -97,7 +97,7 @@ namespace yld {
             }
             startOffset = r.m_lastMessageTime + OFFSET_START;
             responses.push_back(r);
-            r = SendChatRequest(continuation, innertube_key, startOffset);
+            r = sendChatRequest(continuation, innertube_key, startOffset);
         } while(r.m_lastMessageTime < end);
 
         m_responses = responses;

@@ -1,6 +1,7 @@
 #ifndef YT_CHAT_REPLAY_ITEM_H
 #define YT_CHAT_REPLAY_ITEM_H
 
+#include <nlohmann/json.hpp>
 #include <iostream>
 
 using namespace std;

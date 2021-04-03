@@ -2,7 +2,7 @@
 #include <tclap/CmdLine.h>
 #include <nlohmann/json.hpp>
 #include <yld/chatresponse.h>
-#include <yld/chatwindow.h>
+#include <yld/ytchatrender.h>
 
 using namespace std;
 
@@ -40,7 +40,17 @@ int main(int argc, char** argv)
 	yld::ChatResponse::ReadFileToChatResponses(chatResponseJsonFile, chatResponses);
 
 	// std::thread t1(yld::ChatWindow);
-	yld::ChatWindow myWindow{800, 600};
+	yld::YtChatRender myWindow{800, 600};
+	myWindow.drawUnsupportedGlyph(true);
+
+	std::vector<yld::ChatReplayItem> items;
+	yld::ChatResponse::BuildChatReplayItems(chatResponses, items);
+
+    for(int i = 0; i < items.size(); i++){
+        myWindow.addMessage(items[i]);
+    }
+
+    myWindow.encodeToFile();
 
 	// sk_sp<SkTypeface> myTypeface = SkTypeface::MakeFromName("Comic Sans", SkFontStyle::Normal());
 	// SkFont sFont{myTypeface, 1.0F};

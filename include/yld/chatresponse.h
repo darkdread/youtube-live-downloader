@@ -25,7 +25,14 @@ namespace yld {
 							m_lastMessageTime = p_lastMessageTime;
 							m_chatReplayItems = p_chatReplayItems;
 						}
-			
+
+			static void BuildChatReplayItems(const std::vector<ChatResponse> &responses, std::vector<ChatReplayItem> &item){
+				for(int i = 0; i < responses.size(); i++){
+					ChatResponse r = responses[i];
+					item.insert(item.end(), r.m_chatReplayItems.begin(), r.m_chatReplayItems.end());
+				}
+			}
+
 			static void ReadFileToChatResponses(const std::string & filePath, std::vector<ChatResponse> & responses){
 				std::ifstream opFile(filePath);
 				std::stringstream buffer;
@@ -40,7 +47,7 @@ namespace yld {
 				ChatReplayItem::to_json(chatReplayJson, resp.m_chatReplayItems);
 
 				j = nlohmann::json {
-					// {"rawResponse", resp.m_rawResponse},
+					{"rawResponse", resp.m_rawResponse},
 					{"continuation", resp.m_continuation},
 					{"lastMessageTime", resp.m_lastMessageTime},
 					{"chatReplayItems", chatReplayJson}

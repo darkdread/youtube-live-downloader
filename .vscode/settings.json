@@ -71,6 +71,11 @@
         "compare": "cpp",
         "concepts": "cpp",
         "unordered_set": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "deque": "cpp",
+        "locale": "cpp",
+        "queue": "cpp",
+        "xlocbuf": "cpp",
+        "xlocmes": "cpp"
     }
 }

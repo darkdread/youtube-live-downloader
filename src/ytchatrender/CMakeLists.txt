@@ -11,7 +11,7 @@ message("hello ${CMAKE_CXX_FLAGS_DEBUG}")
 # SET(CMAKE_CXX_FLAGS_DEBUG "-g -Xclang -gcodeview -O0 -D_DEBUG -D_DLL -D_MT -Xclang --dependent-lib=msvcrtd")
 # message("hello ${CMAKE_CXX_FLAGS_DEBUG}")
 
-add_executable(ytchatrender ${CMAKE_CURRENT_LIST_DIR}/main.cpp ${CMAKE_CURRENT_LIST_DIR}/chatwindow.cpp)
+add_executable(ytchatrender ${CMAKE_CURRENT_LIST_DIR}/main.cpp ${CMAKE_CURRENT_LIST_DIR}/ytchatrender.cpp ${CMAKE_SOURCE_DIR}/src/chatrender.cpp)
 
 target_include_directories(ytchatrender PRIVATE ${TCLAP_INCLUDE_DIRS})
 target_include_directories(ytchatrender PRIVATE ${CMAKE_SOURCE_DIR}/third_party/skia)
