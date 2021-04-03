@@ -26,9 +26,8 @@ namespace yld {
 
             YtChatRender(int width, int height);
             void addMessage(ChatReplayItem &item);
-
         private:
-            SkColor fMemberBgColor = SkColorSetARGB(128, 0, 255, 0);
+            SkColor fMemberBgColor = SkColorSetARGB(255,15,157,88);
             void addMembershipMessage(ChatReplayItem &item);
     };
 
