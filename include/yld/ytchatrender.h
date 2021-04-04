@@ -40,12 +40,32 @@ namespace yld {
                 fTsFontSize = size;
                 fTsFont = SkFont(fTsTypef, size, 1.0f, 0.0f);
             }
+            void drawTimestamp(bool draw){
+                fDrawTimestamp = draw;
+            }
+            void drawAvatar(bool draw){
+                fDrawAvatar = draw;
+            }
+            void setAvatarSize(int size){
+                fAvatarSize = size;
+            }
+            const int getAvatarSize() const {
+                if (!fDrawAvatar){
+                    return 0;
+                }
+                return fAvatarSize;
+            }
         private:
             SkPaint fTsPaint;
             SkFont fTsFont;
             sk_sp<SkTypeface> fTsTypef;
             SkColor fMemberBgColor = SkColorSetARGB(255,15,157,88);
+
+            bool fDrawTimestamp;
+            bool fDrawAvatar;
+            int fAvatarSize = fFontSize * 2;
             int fTsFontSize;
+            void drawImage(ChatReplayItem &item);
             void addMembershipMessage(ChatReplayItem &item);
     };
 

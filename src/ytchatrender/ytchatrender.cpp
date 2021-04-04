@@ -62,6 +62,23 @@ void YtChatRender::addMembershipMessage(ChatReplayItem &item){
     drawPosX = 0; 
 }
 
+void YtChatRender::drawImage(ChatReplayItem &item){
+
+    sk_sp<SkData> png = SkData::MakeFromFileName("author.png");
+    sk_sp<SkImage> image = SkImage::MakeFromEncoded(png);
+    sk_sp<SkSurface> surf = SkSurface::MakeRasterN32Premul(fAvatarSize, fAvatarSize);
+    SkCanvas* c = surf->getCanvas();
+    SkScalar iWidth = image.get()->width();
+    SkScalar resize = fAvatarSize / iWidth;
+    c->scale(resize, resize);
+    c->drawImage(image, 0, 0);
+
+    sk_sp<SkImage> image2 = surf->makeImageSnapshot();
+    pSkCanvas->drawImage(image2, 0, drawPosY - fFontSize/2 - fMarginBetweenMsg);
+    // pSkCanvas->drawImage(image, 0, drawPosY - fFontSize/2 - fMarginBetweenMsg);
+    drawPosX += image2.get()->width() + 10;
+}
+
 void YtChatRender::addMessage(ChatReplayItem &item){
 
     if (item.m_responseType == ChatReplayItem::chat_replay_t::membership){
@@ -69,15 +86,21 @@ void YtChatRender::addMessage(ChatReplayItem &item){
         return;
     }
 
-    // Draw timestamp
     drawPosX = 0;
-    drawPosY += fFontSize + fMarginBetweenMsg;
+    drawPosY += fFontSize + getAvatarSize() + fMarginBetweenMsg;
 
     if (drawPosY > height){
-        drawPosY = fFontSize;
+        drawPosY = fFontSize + getAvatarSize();
         create_new_bitmap(fBgColor);
     }
 
-    ChatRender::drawText(item.m_messageTimestampText + " ", fTsFont, fTsPaint);
+    if (fDrawAvatar){
+        drawImage(item);
+    }
+    if (fDrawTimestamp){
+        ChatRender::drawText(item.m_messageTimestampText + " ", fTsFont, fTsPaint);
+    }
+    drawPosXNewLine = drawPosX;
     ChatRender::addMessage(item.m_author + ": " + item.BuildMessage(), fFont, fFontPaint);
+    drawPosXNewLine = 0.0F;
 }

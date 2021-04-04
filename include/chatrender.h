@@ -49,6 +49,7 @@ class ChatRender {
 
         SkScalar drawPosX = 0.0f;
         SkScalar drawPosY = 0.0f;
+        SkScalar drawPosXNewLine = 0.0f;
 
         std::vector<SkBitmap> fBitmaps;
         sk_sp<SkTypeface> fTypef;

@@ -235,12 +235,12 @@ void ChatRender::drawText(std::string message, SkFont &sFont, SkPaint &sPaint){
         SkScalar skScalar[1];
         font.getWidths(id, 1, skScalar);
         if (drawPosX + skScalar[0] > width){
-            drawPosX = 0;
+            drawPosX = drawPosXNewLine;
             drawPosY += font.getSize();
 
             if (drawPosY > height){
                 drawPosY = sFont.getSize();
-                drawPosX = 0;
+                drawPosX = drawPosXNewLine;
                 create_new_bitmap(fBgColor);
             }
         }
