@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 	myWindow.drawUnsupportedGlyph(true);
 	myWindow.setFontSize(20);
 	myWindow.setAvatarSize(40);
-	myWindow.drawAvatar(false);
+	myWindow.drawAvatar(true);
 	myWindow.drawTimestamp(true);
 
 	std::vector<yld::ChatReplayItem> items;

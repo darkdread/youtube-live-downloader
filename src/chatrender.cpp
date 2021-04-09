@@ -110,10 +110,11 @@ void ChatRender::setFontSize(int size){
 }
 
 void ChatRender::setTypeface(const char* familyName, SkFontStyle fontStyle){
-    fTypef = sk_sp<SkTypeface>(FMGR->matchFamilyStyle(familyName, fontStyle));
-    if (fTypef == nullptr){
+    sk_sp<SkTypeface> typeF = sk_sp<SkTypeface>(FMGR->matchFamilyStyle(familyName, fontStyle));
+    if (typeF == nullptr){
         return;
     }
+    fTypef = typeF;
     fFont = SkFont(fTypef, fFontSize, 1.0f, 0.0f);
 }
 

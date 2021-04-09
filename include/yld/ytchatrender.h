@@ -30,10 +30,11 @@ namespace yld {
                 fTsPaint = paint;
             }
             void setTimestampTypeface(const char* familyName, SkFontStyle fontStyle){
-                fTsTypef = sk_sp<SkTypeface>(FMGR->matchFamilyStyle(familyName, fontStyle));
-                if (fTsTypef == nullptr){
+                sk_sp<SkTypeface> tsTypef = sk_sp<SkTypeface>(FMGR->matchFamilyStyle(familyName, fontStyle));
+                if (tsTypef == nullptr){
                     return;
                 }
+                fTsTypef = tsTypef;
                 fTsFont = SkFont(fTsTypef, fFontSize, 1.0f, 0.0f);
             }
             void setTimestampFontSize(int size){
