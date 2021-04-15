@@ -240,7 +240,7 @@ void ChatRender::drawText(std::string message, SkFont &sFont, SkPaint &sPaint){
             drawPosY += font.getSize();
 
             if (drawPosY > height){
-                drawPosY = sFont.getSize();
+                drawPosY = font.getSize();
                 drawPosX = drawPosXNewLine;
                 create_new_bitmap(fBgColor);
             }

@@ -81,25 +81,51 @@ void YtChatRender::drawImage(ChatReplayItem &item){
 
 void YtChatRender::addMessage(ChatReplayItem &item){
 
+    SkCanvas* pCanvas = pSkCanvas;
+    SkPaint debugPaint;
+    
+    // New message line
+    debugPaint.setColor(SK_ColorRED);
+    pSkCanvas->drawLine(drawPosX, drawPosY, width, drawPosY, debugPaint);
+
+    drawPosX = fMarginBetweenMsg;
+    drawPosY += fMarginBetweenMsg;
+
+    SkScalar posYAfterAvatar = 0.0;
+    // pSkCanvas->drawLine(drawPosX, drawPosY, width, drawPosY, fPaint);
+
     if (item.m_responseType == ChatReplayItem::chat_replay_t::membership){
         addMembershipMessage(item);
         return;
     }
 
-    drawPosX = fMarginBetweenMsg;
-    drawPosY += fFontSize + getAvatarSize() + fMarginBetweenMsg;
-
-    if (drawPosY > height){
-        drawPosY = fFontSize + getAvatarSize() + fMarginBetweenMsg;
-        create_new_bitmap(fBgColor);
-    }
-
-    pSkCanvas->drawLine(drawPosX, drawPosY, width, drawPosY, fPaint);
-
     if (fDrawAvatar){
+        drawPosY += fAvatarSize;
+        if (drawPosY + fAvatarSize/2 > height){
+            drawPosY = fAvatarSize + fMarginBetweenMsg;
+            create_new_bitmap(fBgColor);
+            pCanvas = pSkCanvas;
+        }
+        // Line after avatar
+        debugPaint.setColor(SK_ColorBLACK);
+        pSkCanvas->drawLine(drawPosX, drawPosY + fAvatarSize/2, width, drawPosY + fAvatarSize/2, debugPaint);
         drawImage(item);
+        posYAfterAvatar = drawPosY + fAvatarSize/2;
         drawPosX += fMarginBetweenMsg;
+    } else {
+        drawPosY += fFontSize;
+
+        if (drawPosY > height){
+            drawPosY = fFontSize + fMarginBetweenMsg;
+            create_new_bitmap(fBgColor);
+            pCanvas = pSkCanvas;
+        }
     }
+
+    // Line half of avatar
+    debugPaint.setColor(SK_ColorBLUE);
+    pSkCanvas->drawLine(drawPosX, drawPosY, width, drawPosY, debugPaint);
+
     if (fDrawTimestamp){
         ChatRender::drawText(item.m_messageTimestampText, fTsFont, fTsPaint);
         drawPosX += fMarginBetweenMsg;
@@ -107,4 +133,7 @@ void YtChatRender::addMessage(ChatReplayItem &item){
     drawPosXNewLine = drawPosX;
     ChatRender::addMessage(item.m_author + ": " + item.BuildMessage(), fFont, fFontPaint);
     drawPosXNewLine = 0.0F;
+    if (fDrawAvatar && pCanvas == pSkCanvas && posYAfterAvatar > drawPosY){
+        drawPosY = posYAfterAvatar;
+    }
 }

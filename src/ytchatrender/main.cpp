@@ -51,6 +51,7 @@ int main(int argc, char** argv)
 	myWindow.setFontSize(20);
 	myWindow.setAvatarSize(40);
 	myWindow.drawAvatar(true);
+	// myWindow.drawAvatar(false);
 	myWindow.drawTimestamp(true);
 
 	std::vector<yld::ChatReplayItem> items;
